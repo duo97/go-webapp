@@ -48,3 +48,31 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	})
 
 }
+
+//Home is the home page handler
+func (m *Repository) Majors(w http.ResponseWriter, r *http.Request) {
+
+	render.RenderTemplate(w, "majors.page.tmpl", &models.TemplateData{})
+
+}
+
+//Home is the home page handler
+func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
+
+	render.RenderTemplate(w, "generals.page.tmpl", &models.TemplateData{})
+
+}
+
+//Home is the home page handler
+func (m *Repository) SearchAvailability(w http.ResponseWriter, r *http.Request) {
+
+	render.RenderTemplate(w, "search-availability.page.tmpl", &models.TemplateData{})
+
+}
+
+//Home is the home page handler
+func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
+
+	render.RenderTemplate(w, "reservation.page.tmpl", &models.TemplateData{})
+
+}
