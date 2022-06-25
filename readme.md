@@ -1,4 +1,4 @@
-# Bookings and Reservations
+# Simple Go Web app (in development)
 
 -Built in Go version 1.13
 -Uses the [chi router](github.com/go-chi/chi)
