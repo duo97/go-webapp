@@ -1,6 +1,8 @@
 //TemplateData holds data sent from handlers to template
 package models
 
+import "github.com/duo97/go-webapp/internal/forms"
+
 type TemplateData struct {
 	StringMap map[string]string
 	IntMap    map[string]int
@@ -10,4 +12,5 @@ type TemplateData struct {
 	Flash     string
 	Warning   string
 	Error     string
+	Form      *forms.Form
 }

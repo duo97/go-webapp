@@ -1,12 +1,15 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
-	"github.com/duo97/go-webapp/pkg/config"
-	"github.com/duo97/go-webapp/pkg/models"
-	"github.com/duo97/go-webapp/pkg/render"
+	"github.com/duo97/go-webapp/internal/config"
+	"github.com/duo97/go-webapp/internal/forms"
+	"github.com/duo97/go-webapp/internal/models"
+	"github.com/duo97/go-webapp/internal/render"
 )
 
 var Repo *Repository
@@ -78,9 +81,61 @@ func (m *Repository) PostSearchAvailability(w http.ResponseWriter, r *http.Reque
 
 }
 
+type jsonResponse struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+}
+
+func (m *Repository) JsonSearchAvailability(w http.ResponseWriter, r *http.Request) {
+	resp := jsonResponse{
+		OK:      true,
+		Message: "Available",
+	}
+
+	out, err := json.MarshalIndent(resp, "", "    ")
+	if err != nil {
+		log.Panicln(err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
+}
+
 //Home is the home page handler
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 
-	render.RenderTemplate(w, "reservation.page.tmpl", &models.TemplateData{}, r)
+	render.RenderTemplate(w, "reservation.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
+	}, r)
+
+}
+
+//PostReservation is the handler for handling user posted reservation form
+func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
+
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	reservation := models.Reservation{
+		FirstName: r.Form.Get("first_name"),
+		LastName:  r.Form.Get("last_name"),
+		Phone:     r.Form.Get("phone"),
+		Email:     r.Form.Get("email"),
+	}
+
+	form := forms.New(r.PostForm)
+
+	if !form.Valid() {
+		data := make(map[string]interface{})
+		data["reservation"] = reservation
+		render.RenderTemplate(w, "reservation.page.tmpl", &models.TemplateData{
+			Form: form,
+			Data: data,
+		}, r)
+		return
+
+	}
 
 }

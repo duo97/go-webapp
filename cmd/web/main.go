@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/duo97/go-webapp/pkg/config"
-	"github.com/duo97/go-webapp/pkg/handlers"
-	"github.com/duo97/go-webapp/pkg/render"
+	"github.com/duo97/go-webapp/internal/config"
+	"github.com/duo97/go-webapp/internal/handlers"
+	"github.com/duo97/go-webapp/internal/render"
 )
 
 const portNumber = ":8000"
