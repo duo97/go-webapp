@@ -53,21 +53,21 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
 }
 
-//Home is the home page handler
+//Majors is the majors page handler
 func (m *Repository) Majors(w http.ResponseWriter, r *http.Request) {
 
 	render.RenderTemplate(w, "majors.page.tmpl", &models.TemplateData{}, r)
 
 }
 
-//Home is the home page handler
+//Generals is the generals page handler
 func (m *Repository) Generals(w http.ResponseWriter, r *http.Request) {
 
 	render.RenderTemplate(w, "generals.page.tmpl", &models.TemplateData{}, r)
 
 }
 
-//Home is the home page handler
+//Search-availability is the search-availability page handler
 func (m *Repository) SearchAvailability(w http.ResponseWriter, r *http.Request) {
 
 	render.RenderTemplate(w, "search-availability.page.tmpl", &models.TemplateData{}, r)
@@ -142,5 +142,24 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
+
+	m.App.Session.Put(r.Context(), "reservation", reservation)
+	http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
+
+}
+
+func (m *Repository) ReservationSummary(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("here!")
+	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+	fmt.Printf("%v", reservation)
+	if !ok {
+		log.Panicln("cannot get item from sessions")
+	}
+	data := make(map[string]interface{})
+	data["reservation"] = reservation
+
+	render.RenderTemplate(w, "reservation-summary.page.tmpl", &models.TemplateData{
+		Data: data,
+	}, r)
 
 }

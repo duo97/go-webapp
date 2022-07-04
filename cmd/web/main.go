@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/duo97/go-webapp/internal/config"
 	"github.com/duo97/go-webapp/internal/handlers"
+	"github.com/duo97/go-webapp/internal/models"
 	"github.com/duo97/go-webapp/internal/render"
 )
 
@@ -37,7 +39,7 @@ func main() {
 }
 
 func run() error {
-
+	gob.Register(models.Reservation{})
 	//change this to true when in production
 	app.InProduction = false
 
