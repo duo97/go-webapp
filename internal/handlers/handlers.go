@@ -103,8 +103,12 @@ func (m *Repository) JsonSearchAvailability(w http.ResponseWriter, r *http.Reque
 //Home is the home page handler
 func (m *Repository) Reservation(w http.ResponseWriter, r *http.Request) {
 
+	var emptyReservation models.Reservation
+	data := make(map[string]interface{})
+	data["resevation"] = emptyReservation
 	render.RenderTemplate(w, "reservation.page.tmpl", &models.TemplateData{
 		Form: forms.New(nil),
+		Data: data,
 	}, r)
 
 }
@@ -124,8 +128,9 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 		Phone:     r.Form.Get("phone"),
 		Email:     r.Form.Get("email"),
 	}
-
+	fmt.Printf("reservation data :%v", reservation)
 	form := forms.New(r.PostForm)
+	form.Required("first_name", "last_name", "email")
 
 	if !form.Valid() {
 		data := make(map[string]interface{})
