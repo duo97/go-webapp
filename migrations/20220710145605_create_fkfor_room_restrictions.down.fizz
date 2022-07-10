@@ -1,0 +1,2 @@
+drop_foreign_key("room_restrications","room_restrications_restrications_id_fk",{})
+drop_foreign_key("room_restrications","room_restrications_rooms_id_fk",{})
